@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+	<meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>成员介绍</title> 
+	<link rel="stylesheet" type="text/css" href="css/membersDemo.css" />
+	<link rel="stylesheet" type="text/css" href="css/membersComponent.css" />
+	<script src="js/modernizr.custom.js"></script>
+	<link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/backgroundStyle.css">
+	<link href="css/loginBox.css" rel="stylesheet" type="text/css">
+	<script src="http://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+	<script src="http://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<style type="text/css">
+	.navbar-nav a{
+		color: white !important;
+	}
+	.nav a{
+		color: white !important;
+	}
+	.dropdown-menu{
+		background: black;
+	}
+	.dropdown-menu a:hover{
+		color: red !important;
+		background: black !important;
+	}
+	.row .hidden-sm{
+		border-right: 1px solid #736F6F;
+	}
+</style>
+<script type="text/javascript">
+	window.onload=function () {
+		var oGoreg = document.getElementById('goReg');
+        var oShu = document.getElementById('shu');
+        var oGolog = document.getElementById('goLog');
+        var oMyself = document.getElementById('myself');
+        var oNewshu = document.getElementById('newshu');
+        var oMyname = document.getElementById('myname');
+        var oExit = document.getElementById('exit');
+        
+		function getCookie(key) {
+			var arr1=document.cookie.split('; ');	//将cookie值进行第一次拆分
+			for(var i=0;i<arr1.length;i++){
+				var arr2=arr1[i].split('=');	//将每个arr1中的值进行第二次拆分
+				if (arr2[0]==key) {
+					return decodeURI(arr2[1]);
+				}
+			}
+		}
+
+		function removeCooke(key) {
+			setCookie(key,'',-1);
+		}
+
+		if (getCookie('exit')=='true') {
+			oGoreg.style.display='none';
+            oGolog.style.display='none';
+            oShu.style.display='none';
+            oMyself.style.display='block';
+            oMyname.style.display='block';
+            oNewshu.style.display='block';
+            oExit.style.display='block';
+		}
+		
+		oExit.onclick=function () {
+			removeCooke('exit');
+			var nowUrl=location.pathname;
+            window.location.href=nowUrl;
+            oGoreg.style.display='block';
+            oGolog.style.display='block';
+            oShu.style.display='block';
+            oMyself.style.display='none';
+            oMyname.style.display='none';
+            oNewshu.style.display='none';
+            oExit.style.display='none';
+		}
+	}
+</script>
+</head>
+<body>
+<div class="container-fluid background-6">
+	<div class="row">
+		<nav class="nav navbar-transparent" id="navTop1">
+			<div class="container-fluid">
+				<div class="navbar-header" style="padding: 0;position: relative;z-index: 10;">
+					<!-- <a href="#" class="navbar-brand">logo</a> -->
+					<img src="img/logo.jpg" class="navbar-brand" style="width: 100px;height: 70px;margin:0;position: absolute;top:-10px">
+				</div>
+
+
+				<a href="register.html" class="navbar-link navbar-text navbar-right" style="position: relative;left: -10px;" id="goReg">[注册]</a>
+			
+				<p class="navbar-text navbar-right" style="color: white;" id="shu">|</p>
+				<a href="javascript:showDialog()" id="goLog" class="navbar-link navbar-text navbar-right" style="position: relative;left: 10px;"><span class="glyphicon glyphicon-user"></span>[登录]</a>
+				
+				<a href="#" class="navbar-link navbar-text navbar-right" style="position: relative;left: -10px;display: none;" id="exit">[退出登录]</a>
+				<a href="register.html" class="navbar-link navbar-text navbar-right" style="position: relative;left: -10px;display: none;" id="myself">个人中心</a>
+				<p class="navbar-text navbar-right" style="color: white;display: none;" id="newshu">|</p>
+				<a href="javascript:showDialog()" id="myname" class="navbar-link navbar-text navbar-right" style="position: relative;left: 10px;display: none;"><span class="glyphicon glyphicon-user"></span>姓名</a>
+
+				
+
+				<p class="navbar-text navbar-right"><a href="#" class="navbar-link"><span class="glyphicon glyphicon-envelope">邮箱</span></a></p>
+				<p class="navbar-text navbar-right" style="color: white"><span class="glyphicon glyphicon-earphone"></span>123456789</p>
+				<form class="navbar-form navbar-right">
+					<div class="input-group">
+						<input type="text" class="form-control" style="" placeholder="搜索">
+						<span class="input-group-addon"><a href="#"><span class="glyphicon glyphicon-search" style="color: blue"></span></a></span>
+					</div>
+				</form>
+			</div>
+		</nav>
+	</div>
+	
+	    
+	<!-- 对话框默认居中 -->
+	<div class="ui-mask" id="mask" onselectstart="return false"></div>
+	<!-- 对话框 -->
+	<div class="login-box" id="dialogMove" onselectstart='return false;'>
+		<!-- 登陆界面 -->
+		<div class="login-box-title" id="dialogDrag"  onselectstart="return false;" >
+			登录通行证
+			<a class="login-box-close-button" href="javascript:hideDialog();"></a>
+		</div>
+		<div class="panel-body">
+            <div class="form-group">
+                <label><span class="glyphicon glyphicon-user"></span>用户名:</label><input type="text" class="form-control"  id="username" placeholder="教职工号/学生学号/手机号">
+                <!-- <div class="alert alert-warning">用户名不能为空！</div> -->
+                <label><span class="glyphicon glyphicon-lock"></span>密码:</label><input type="password" class="form-control" id="password" placeholder="密码" >
+            </div>
+			<div class="login-box-l40">
+				<a href="register.html" style="float: left;">注册</a>
+				<a href="#">忘记密码</a>
+			</div>
+			<div>
+				<a class="login-box-submit" href="#" id="login">登录</a>
+			</div>
+			<!-- <div class="ui-dialog-l40">
+				<a href="#">立即注册</a>
+			</div> -->
+		</div>
+	</div>
+	<!-- 导航栏 -->
+	<div class="row">
+		<nav class="nav navbar-transparent" id="navTop2">
+		<!-- nav 内设置 navbar-transparent属性时不能包含 navbar-default 和 navbar-inverse 属性，会冲突 -->
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<button class="navbar-toggle" data-toggle="collapse" data-target="#myCollapse">
+						<!-- 要点击展开谁，设置谁的id，并用data-target对应起来 -->
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<!-- 三条横线 -->
+					</button>
+					<a href="#" class="navbar-brand"><span class="glyphicon glyphicon-align-justify"></span>全部导航</a>
+				</div>
+				<div class="collapse navbar-collapse" id="myCollapse">
+					<!-- 需要在移动端上折叠谁就给谁加一个div，然后设置这样的class类 -->	
+					<ul class="nav navbar-nav navbar-left">
+						<li class="dropdown navbarDropdown">
+							<a href="index.html" class="dropdown-toggle">主页<span class="caret"></span></a>
+							<!-- <ul class="dropdown-menu">
+								<li><a href="#">Action</a></li>
+							    <li><a href="#">Another action</a></li>
+							    <li><a href="#">Something else here</a></li>
+							    <li><a href="#">Separated link</a></li>
+							</ul> -->
+						</li>
+						<li class="dropdown navbarDropdown">
+							<a href="laboratory.html" class="dropdown-toggle">实验室概况<span class="caret"></span></a>
+							<!-- <ul class="dropdown-menu">
+								<li><a href="members.html">成员介绍</a></li>
+								<li><a href="#">child2</a></li>
+								<li><a href="#">child3</a></li>
+								<li><a href="#">child4</a></li>
+							</ul> -->
+						</li>
+						<li class="dropdown navbarDropdown">
+							<a href="members.html" class="dropdown-toggle">成员介绍<span class="caret"></span></a>
+							<!-- 因为有data-toggle="dropdown"的存在，所以a变成了点击展开下拉列表，而不是跳转 -->
+							<!-- <ul class="dropdown-menu">
+								<li><a href="#">child1</a></li>
+								<li><a href="#">child2</a></li>
+								<li><a href="#">child3</a></li>
+								<li><a href="#">child4</a></li>
+							</ul> -->
+						</li>
+						<li class="dropdown navbarDropdown">
+							<a href="share.html" class="dropdown-toggle">学习分享<span class="caret"></span></a>
+							<!-- <ul class="dropdown-menu">
+								<li><a href="#">child1</a></li>
+								<li><a href="#">child2</a></li>
+								<li><a href="#">child3</a></li>
+								<li><a href="#">child4</a></li>
+							</ul> -->
+						</li>
+						<li class="dropdown navbarDropdown">
+							<a href="joinUs.html" class="dropdown-toggle">加入我们<span class="caret"></span></a>
+							<!-- <ul class="dropdown-menu">
+								<li><a href="#">child1</a></li>
+								<li><a href="#">child2</a></li>
+								<li><a href="#">child3</a></li>
+								<li><a href="#">child4</a></li>
+							</ul> -->
+						</li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+	</div>
+	
+	<div class="container">
+		<div id="grid-gallery" class="grid-gallery">
+			<section class="grid-wrap">
+				<ul class="grid">
+					<li class="grid-sizer"></li><!-- for Masonry column width -->
+					<li>
+						<figure>
+							<img src="img/thumb/1.png" alt="img01"/>
+							<figcaption><h3>前端开发学习者1</h3><p>张1</p></figcaption>
+						</figure>
+					</li>
+					<li>
+						<figure>
+							<img src="img/thumb/2.png" alt="img02"/>
+							<figcaption><h3>前端开发学习者2</h3><p>张2 </p></figcaption>
+						</figure>
+					</li>
+					<li>
+						<figure>
+							<img src="img/thumb/3.png" alt="img03"/>
+							<figcaption><h3>前端开发学习者3</h3><p>张3</p></figcaption>
+						</figure>
+					</li>
+					<li>
+						<figure>
+							<img src="img/thumb/4.png" alt="img04"/>
+							<figcaption><h3>前端开发学习者4</h3><p>张4</p></figcaption>
+						</figure>
+					</li>
+					<li>
+						<figure>
+							<img src="img/thumb/5.png" alt="img05"/>
+							<figcaption><h3>前端开发学习者5</h3><p>Pariatur food truck street art consequat sustainable, et kogi beard qui paleo. </p></figcaption>
+						</figure>
+					</li>
+					<li>
+						<figure>
+							<img src="img/thumb/6.png" alt="img06"/>
+							<figcaption><h3>前端开发学习者6</h3><p>Street chillwave hoodie ea gentrify.</p></figcaption>
+						</figure>
+					</li>
+					<li>
+						<figure>
+							<img src="img/thumb/1.png" alt="img01"/>
+							<figcaption><h3>前端开发学习者7</h3><p>Raw denim duis Tonx Shoreditch labore swag artisan High Life cred, stumptown Schlitz quinoa flexitarian mollit fanny pack.</p></figcaption>
+						</figure>
+					</li>
+					<li>
+						<figure>
+							<img src="img/thumb/2.png" alt="img02"/>
+							<figcaption><h3>前端开发学习者8</h3><p>Vinyl squid ex High Life. Paleo Neutra nulla master cleanse, Helvetica et enim nesciunt esse.</p></figcaption>
+						</figure>
+					</li>
+					<li>
+						<figure>
+							<img src="img/thumb/3.png" alt="img03"/>
+							<figcaption><h3>前端开发学习者9</h3><p>Qui nesciunt et, in chia cliche irure. Eu YOLO nihil mollit twee locavore, tempor keytar asymmetrical irure aute sriracha consequat.</p></figcaption>
+						</figure>
+					</li>
+					<li>
+						<figure>
+							<img src="img/thumb/4.png" alt="img04"/>
+							<figcaption><h3>前端开发学习者10</h3><p>Portland nulla butcher ea XOXO, consequat Bushwick Pinterest elit twee pickled direct trade vero. </p></figcaption>
+						</figure>
+					</li>
+					<li>
+						<figure>
+							<img src="img/thumb/5.png" alt="img05"/>
+							<figcaption><h3>前端开发学习者11</h3><p>Bicycle rights flannel Shoreditch, art party laboris Bushwick sriracha authentic chambray hella umami sed distillery master cleanse.</p></figcaption>
+						</figure>
+					</li>
+					<li>
+						<figure>
+							<img src="img/thumb/1.png" alt="img01"/>
+							<figcaption><h3>前端开发学习者12</h3><p>Once there was a little asparagus, he was green and lonely.</p></figcaption>
+						</figure>
+					</li>
+					<li>
+						<figure>
+							<img src="img/thumb/1.png" alt="img01"/>
+							<figcaption><h3>前端开发学习者13</h3><p>Chillwave hoodie ea gentrify aute sriracha consequat.</p></figcaption>
+						</figure>
+					</li>
+					<li>
+						<figure>
+							<img src="img/thumb/2.png" alt="img02"/>
+							<figcaption><h3>前端开发学习者14</h3><p>后哈哈哈哈哈哈哈哈哈 </p></figcaption>
+						</figure>
+					</li>
+					<li>
+						<figure>
+							<img src="img/thumb/3.png" alt="img03"/>
+							<figcaption><h3>前端开发学习者15</h3><p>Ex disrupt cray yr, butcher pour-over magna umami kitsch before they sold out commodo.</p></figcaption>
+						</figure>
+					</li>
+					<li>
+						<figure>
+							<img src="img/thumb/4.png" alt="img04"/>
+							<figcaption><h3>前端开发学习者16</h3><p>In post-ironic gluten-free deserunt, PBR&amp;B non pork belly cupidatat polaroid. </p></figcaption>
+						</figure>
+					</li>
+					<li>
+						<figure>
+							<img src="img/thumb/5.png" alt="img05"/>
+							<figcaption><h3>前端开发学习者17</h3><p>Pariatur food truck street art consequat sustainable, et kogi beard qui paleo. </p></figcaption>
+						</figure>
+					</li>
+					<li>
+						<figure>
+							<img src="img/thumb/6.png" alt="img06"/>
+							<figcaption><h3>前端开发学习者18</h3><p>Street chillwave hoodie ea gentrify.</p></figcaption>
+						</figure>
+					</li>
+					<li>
+						<figure>
+							<img src="img/thumb/1.png" alt="img01"/>
+							<figcaption><h3>前端开发学习者19</h3><p>Raw denim duis Tonx Shoreditch labore swag artisan High Life cred, stumptown Schlitz quinoa flexitarian mollit fanny pack.</p></figcaption>
+						</figure>
+					</li>
+					<li>
+						<figure>
+							<img src="img/thumb/2.png" alt="img02"/>
+							<figcaption><h3>前端开发学习者20</h3><p>Vinyl squid ex High Life. Paleo Neutra nulla master cleanse, Helvetica et enim nesciunt esse.</p></figcaption>
+						</figure>
+					</li>
+					<li>
+						<figure>
+							<img src="img/thumb/3.png" alt="img03"/>
+							<figcaption><h3>前端开发学习者21</h3><p>Qui nesciunt et, in chia cliche irure. Eu YOLO nihil mollit twee locavore, tempor keytar asymmetrical irure aute sriracha consequat.</p></figcaption>
+						</figure>
+					</li>
+					<li>
+						<figure>
+							<img src="img/thumb/4.png" alt="img04"/>
+							<figcaption><h3>前端开发学习者22</h3><p>Portland nulla butcher ea XOXO, consequat Bushwick Pinterest elit twee pickled direct trade vero. </p></figcaption>
+						</figure>
+					</li>
+					<li>
+						<figure>
+							<img src="img/thumb/5.png" alt="img05"/>
+							<figcaption><h3>前端开发学习者23</h3><p>Bicycle rights flannel Shoreditch, art party laboris Bushwick sriracha authentic chambray hella umami sed distillery master cleanse.</p></figcaption>
+						</figure>
+					</li>
+					<li>
+						<figure>
+							<img src="img/thumb/1.png" alt="img01"/>
+							<figcaption><h3>前端开发学习者24</h3><p>Once there was a little asparagus, he was green and lonely.</p></figcaption>
+						</figure>
+					</li>
+				</ul>
+			</section><!-- // grid-wrap -->
+			<section class="slideshow">
+				<ul>
+					<li>
+						<figure>
+							<figcaption>
+								<h3>张1</h3>
+								<p>Kale chips lomo biodiesel stumptown Godard Tumblr, mustache sriracha tattooed cray aute slow-carb placeat delectus. Letterpress asymmetrical fanny pack art party est pour-over skateboard anim quis, ullamco craft beer.</p>
+							</figcaption>
+							<img src="img/large/1.png" alt="img01"/>
+						</figure>
+					</li>
+					<li>
+						<figure>
+							<figcaption>
+								<h3>张2</h3>
+								<p>Chillwave Echo Park Etsy organic Cosby sweater seitan authentic pour-over. Occupy wolf selvage bespoke tattooed, cred sustainable Odd Future hashtag butcher.</p>
+							</figcaption>
+							<img src="img/large/2.png" alt="img02"/>
+						</figure>
+					</li>
+					<li>
+						<figure>
+							<figcaption>
+								<h3>张3</h3>
+								<p>IPhone PBR polaroid before they sold out meh you probably haven't heard of them leggings tattooed tote bag, butcher paleo next level single-origin coffee photo booth.</p>
+							</figcaption>
+							<img src="img/large/3.png" alt="img03"/>
+						</figure>
+					</li>
+					<li>
+						<figure>
+							<figcaption>
+								<h3>Chillwave nihil occupy张4</h3>
+								<p>Vice cliche locavore mumblecore vegan wayfarers asymmetrical letterpress hoodie mustache. Shabby chic lomo polaroid, scenester 8-bit Portland Pitchfork VHS tote bag.</p>
+							</figcaption>
+							<img src="img/large/4.png" alt="img04"/>
+						</figure>
+					</li>
+					<li>
+						<figure>
+							<figcaption>
+								<h3>Kale chips lomo biodiesel张5</h3>
+								<p>Chambray Schlitz pug YOLO, PBR Tumblr semiotics. Flexitarian YOLO ennui Blue Bottle, forage dreamcatcher chillwave put a bird on it craft beer Etsy.</p>
+							</figcaption>
+							<img src="img/large/5.png" alt="img05"/>
+						</figure>
+					</li>
+					<li>
+						<figure>
+							<figcaption>
+								<h3>Exercitation occaecat张6</h3>
+								<p>Cosby sweater hella lomo Thundercats VHS occupy High Life. Synth pop-up readymade single-origin coffee, fanny pack tousled retro. Fingerstache mlkshk ugh hashtag, church-key ethnic street art pug yr.</p>
+							</figcaption>
+							<img src="img/large/6.png" alt="img06"/>
+						</figure>
+					</li>
+					<li>
+						<figure>
+							<figcaption>
+								<h3>Selfies viral four张7</h3>
+								<p>Ethnic readymade pug, small batch XOXO Odd Future normcore kogi food truck craft beer single-origin coffee banh mi photo booth raw denim. XOXO messenger bag pug VHS. Forage gluten-free polaroid, twee hoodie chillwave Helvetica.</p>
+							</figcaption>
+							<img src="img/large/1.png" alt="img01"/>
+						</figure>
+					</li>
+					<li>
+						<figure>
+							<figcaption>
+								<h3>Photo booth skateboard张8</h3>
+								<p>Thundercats pour-over four loko skateboard Brooklyn, Etsy sriracha leggings dreamcatcher narwhal authentic 3 wolf moon synth Portland. Shabby chic photo booth Blue Bottle keffiyeh, McSweeney's roof party Carles.</p>
+							</figcaption>
+							<img src="img/large/2.png" alt="img02"/>
+						</figure>
+					</li>
+					<li>
+						<figure>
+							<figcaption>
+								<h3>Ex fashion axe张9</h3>
+								<p>Ennui Blue Bottle shabby chic, organic butcher High Life tattooed meggings jean shorts Brooklyn sartorial polaroid. Cray raw denim +1, bespoke High Life Odd Future banh mi chillwave Marfa kogi disrupt paleo direct trade 90's Godard. </p>
+							</figcaption>
+							<img src="img/large/3.png" alt="img03"/>
+						</figure>
+					</li>
+					<li>
+						<figure>
+							<figcaption>
+								<h3>Thundercats next level张10</h3>
+								<p>Typewriter authentic PBR, iPhone mixtape fixie post-ironic fingerstache Pitchfork artisan. Wayfarers master cleanse occupy, Tonx lo-fi swag Truffaut irony whatever Blue Bottle readymade PBR gluten-free. Lomo Pinterest Banksy fap. Retro ennui you probably haven't heard of them iPhone, PBR fashion axe polaroid.</p>
+							</figcaption>
+							<img src="img/large/4.png" alt="img04"/>
+						</figure>
+					</li>
+					<li>
+						<figure>
+							<figcaption>
+								<h3>Bushwick selvage synth张11</h3>
+								<p>Schlitz deserunt pour-over consectetur. Selfies plaid asymmetrical farm-to-table, cred gastropub photo booth narwhal non roof party velit raw denim slow-carb meggings pug. Tempor post-ironic seitan cliche bicycle rights. Meh viral Williamsburg, quinoa 8-bit kale chips YOLO Marfa accusamus.</p>
+							</figcaption>
+							<img src="img/large/5.png" alt="img05"/>
+						</figure>
+					</li>
+					<li>
+						<figure>
+							<figcaption>
+								<h3>Bottle wayfarers locavore张12</h3>
+								<p>Aliqua High Life art party fixie farm-to-table. Kitsch Echo Park shabby chic, narwhal fugiat Cosby sweater asymmetrical gastropub tofu. Authentic minim Pinterest Blue Bottle beard, aliqua chia XOXO dolor freegan banh mi vegan fugiat.</p>
+							</figcaption>
+							<img src="img/large/1.png" alt="img01"/>
+						</figure>
+					</li>
+					<li>
+						<figure>
+							<figcaption>
+								<h3>Letterpress asymmetrical张13</h3>
+								<p>Pickled hoodie Pinterest 90's proident church-key chambray. Salvia incididunt slow-carb ugh skateboard velit, flannel authentic hoodie lomo fixie photo booth farm-to-table. Minim meggings Bushwick, semiotics Vice put a bird.</p>
+							</figcaption>
+							<img src="img/large/1.png" alt="img01"/>
+						</figure>
+					</li>
+					<li>
+						<figure>
+							<figcaption>
+								<h3>Vice velit chia张14</h3>
+								<p>Tattooed assumenda chambray cray officia. 90's mollit ethnic church-key ex eu pop-up gentrify. Tonx raw denim eu, bitters nesciunt distillery Neutra pop-up. Drinking vinegar Helvetica Truffaut tattooed.</p>
+							</figcaption>
+							<img src="img/large/2.png" alt="img02"/>
+						</figure>
+					</li>
+					<li>
+						<figure>
+							<figcaption>
+								<h3>Brunch semiotics张15</h3>
+								<p>Gentrify High Life adipisicing, duis slow-carb kogi Tumblr raw denim freegan Echo Park. Fingerstache laboris pork belly messenger bag, you probably haven't heard of them vegan twee Intelligentsia Vice Etsy pickled put a bird on it Godard roof party. Meggings small batch dreamcatcher velit.</p>
+							</figcaption>
+							<img src="img/large/3.png" alt="img03"/>
+						</figure>
+					</li>
+					<li>
+						<figure>
+							<figcaption>
+								<h3>张16</h3>
+								<p>Marfa exercitation non, beard +1 hashtag cardigan gluten-free mixtape church-key ugh eu Portland leggings. Ennui farm-to-table fingerstache keytar Echo Park tattooed. Seitan qui artisan, aliquip cupidatat sunt Portland wayfarers duis.</p>
+							</figcaption>
+							<img src="img/large/4.png" alt="img04"/>
+						</figure>
+					</li>
+					<li>
+						<figure>
+							<figcaption>
+								<h3>张17</h3>
+								<p>Lomo church-key whatever, seitan laborum drinking vinegar lo-fi semiotics nihil meh. Skateboard irure before they sold out Banksy. Narwhal High Life lomo aliqua drinking vinegar. PBR&B placeat proident, craft beer forage DIY nostrud meh flexitarian keytar Helvetica.</p>
+							</figcaption>
+							<img src="img/large/5.png" alt="img05"/>
+						</figure>
+					</li>
+					<li>
+						<figure>
+							<figcaption>
+								<h3>张18</h3>
+								<p>Skateboard Truffaut bicycle rights seitan normcore. Culpa lo-fi ennui, Pinterest before they sold out Echo Park roof party sapiente aesthetic consequat Truffaut freegan voluptate. Kogi banh mi vero nihil, freegan gluten-free cliche. Forage Etsy laboris anim normcore, McSweeney's ex.</p>
+							</figcaption>
+							<img src="img/large/6.png" alt="img06"/>
+						</figure>
+					</li>
+					<li>
+						<figure>
+							<figcaption>
+								<h3>张19</h3>
+								<p>Viral roof party locavore flexitarian nihil fanny pack actually Odd Future anim commodo. Sunt yr aute, enim quis plaid sartorial duis leggings lo-fi gluten-free. Tote bag flexitarian pug stumptown, Cosby sweater try-hard ethnic scenester. Mumblecore +1 hoodie accusamus skateboard slow-carb, Thundercats Godard placeat craft beer meh enim trust fund.</p>
+							</figcaption>
+							<img src="img/large/1.png" alt="img01"/>
+						</figure>
+					</li>
+					<li>
+						<figure>
+							<figcaption>
+								<h3>张20</h3>
+								<p>Culpa pour-over cray nesciunt dreamcatcher. Meggings distillery cillum raw denim voluptate, single-origin coffee lo-fi ethical iPhone four loko nihil salvia. Biodiesel ea Intelligentsia quis deep v, American Apparel trust fund slow-carb synth semiotics quinoa Brooklyn pour-over nulla Godard.</p>
+							</figcaption>
+							<img src="img/large/2.png" alt="img02"/>
+						</figure>
+					</li>
+					<li>
+						<figure>
+							<figcaption>
+								<h3>张21</h3>
+								<p>Bespoke irony tousled nihil flexitarian, salvia tempor nostrud Bushwick hashtag Austin ethnic disrupt. Beard Helvetica nihil, chia craft beer Wes Anderson keytar dolore. Irure incididunt flexitarian photo booth cillum, YOLO deserunt Brooklyn artisan. Brunch assumenda irony, Blue Bottle roof party DIY ullamco quis.</p>
+							</figcaption>
+							<img src="img/large/3.png" alt="img03"/>
+						</figure>
+					</li>
+					<li>
+						<figure>
+							<figcaption>
+								<h3>张22</h3>
+								<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+								tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+								quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea.</p>
+							</figcaption>
+							<img src="img/large/4.png" alt="img04"/>
+						</figure>
+					</li>
+					<li>
+						<figure>
+							<figcaption>
+								<h3>张23</h3>
+								<p>zzzzzzzzzzzzzzzzzzzz</p>
+							</figcaption>
+							<img src="img/large/5.png" alt="img05"/>
+						</figure>
+					</li>
+					<li>
+						<figure>
+							<figcaption>
+								<h3>张24</h3>
+								<p>ssssssssssssssss</p>
+							</figcaption>
+							<img src="img/large/1.png" alt="img01"/>
+						</figure>
+					</li>
+				</ul>
+				<nav>
+					<span class="icon nav-prev"></span>
+					<span class="icon nav-next"></span>
+					<span class="icon nav-close" style="color: white"></span>
+				</nav>
+				<div class="info-keys icon">可以使用方向键导航</div>
+			</section><!-- // slideshow -->
+		</div><!-- // grid-gallery -->
+	</div>
+
+	<div class="container-fluid" style="margin-top: 50px;color: white;" id="footer">
+		<div class="row" style="">
+			<ul class="row">
+				<li class="col-lg-3 col-md-3 col-sm-3 col-xs-3 col-lg-offset-1 col-md-offset-1 col-sm-offset-1 col-xs-offset-1">
+					<div class="footerWork">
+						<h3>技术支持</h3>
+							<ul style="position: relative;left: -38px;">
+								<li>西安文理学院</li>
+								<li>信息工程学院</li>
+								<li>教务系统</li>
+								<li>关于我们</li>
+							</ul>
+					</div>
+				</li>
+
+				<li class="col-lg-3 col-md-3 col-sm-3 col-xs-3 col-lg-offset-1 col-md-offset-1 col-sm-offset-1 col-xs-offset-1">
+					<div class="footerPhone">
+						<h3>联系我们</h3>
+						<ul style="position: relative;left: -38px;">
+							<li>电话：18109238856</li>
+							<li>邮编：710065</li>
+							<li>邮箱：376731363@qq.com</li>
+							<li>时间：周一至周五8:00-21:00</li>
+						</ul>
+
+					</div>
+				</li>
+				<li class="col-lg-3 col-md-3 col-sm-3 col-xs-3 col-lg-offset-1 col-md-offset-1 col-sm-offset-1 col-xs-offset-1" style="float: left;">
+					<h3>问题交流</h3> <img src="img/mypic.png" style="width: 100px;height: 80px;position: relative;" 
+					alt="二维码" />
+				</li>
+			</ul>
+		</div>
+	</div>
+	<div style="width: 100%;height: 100px;margin:0 auto;text-align: center;line-height: 100px;color: white;">
+		Copyright &copy; 2018-2019 西安市西安文理学院信息工程学院电子商务实验室
+	</div>
+	<script src="js/imagesloaded.pkgd.min.js"></script>
+	<script src="js/masonry.pkgd.min.js"></script>
+	<script src="js/classie.js"></script>
+	<script src="js/cbpGridGallery.js"></script>
+	<script>
+		new CBPGridGallery( document.getElementById( 'grid-gallery' ) );
+	</script>
+	<script type="text/javascript">
+		if (window.navigator.userAgent.toLowerCase().indexOf('mobile')==-1) {
+			// 导航栏的鼠标移入移出显示内容
+			var aNavdropdown=document.getElementsByClassName('navbarDropdown');
+			for(var i=0;i<aNavdropdown.length;i++){
+				aNavdropdown[i].index=i;
+				aNavdropdown[i].onmouseover=function () {
+					for(var i=0;i<aNavdropdown.length;i++){
+						aNavdropdown[i].className='dropdown navbarDropdown';
+					}
+					this.className='open dropdown navbarDropdown';
+				}
+				aNavdropdown[i].onmouseout=function () {
+					
+					this.className='dropdown navbarDropdown';
+				}
+			}
+
+			// 鼠标移入移出改变导航栏样式
+			var navTop1=document.getElementById('navTop1');
+			var navTop2=document.getElementById('navTop2');
+			navTop1.onmouseover=function () {
+				this.className='nav navbar-inverse';
+			}
+			navTop1.onmouseout=function () {
+				this.className='nav navbar-transparent';
+			}
+			navTop2.onmouseover=function () {
+				this.className='nav navbar-inverse';
+			}
+			navTop2.onmouseout=function () {
+				this.className='nav navbar-transparent';
+			}
+
+			var aBot=document.getElementsByClassName('Bot');
+			for(var j=0;j<aBot.length;j++){
+				aBot[j].onmouseover=function () {
+					for(var i=0;i<aBot.length;i++){
+						aBot[i].style.opacity=1;
+					}
+					this.style.opacity=0.3;
+				}
+				aBot[j].onmouseout=function () {
+					this.style.opacity=1;
+
+				}
+			}
+
+		}
+	</script>
+	<script type="text/javascript" src="js/login.js"></script>
+	<script type="text/javascript" src="js/loginBox.js"></script>
+</div>
+</body>
+</html>
